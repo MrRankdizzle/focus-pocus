@@ -444,6 +444,57 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 .card h3 { font-size: 20px; font-weight: 800; }
 .card p.muted { color: var(--muted); margin: 6px 0 0; font-size: 15px; }
 
+/* Shift report: letterhead, H&E score ring, stat tiles, specimen tray */
+.report { grid-column: 1 / -1; padding: 0; overflow: hidden;
+  background: radial-gradient(560px 260px at 0% 70px, color-mix(in srgb, var(--hema) 9%, transparent), transparent 70%), radial-gradient(560px 260px at 100% 70px, color-mix(in srgb, var(--eosin) 8%, transparent), transparent 70%), var(--surface); }
+.report-band { display: flex; align-items: center; gap: 10px; background: var(--sign); color: #fff; padding: 12px 22px; border-bottom: 4px solid var(--carolina); font-family: var(--f-sign); font-weight: 800; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; }
+.report-band svg { width: 24px; height: 24px; flex: none; }
+.report-band em { margin-left: auto; font-style: normal; font-family: var(--f-mono); font-weight: 600; font-size: 11.5px; letter-spacing: .12em; color: #a9d2f0; text-align: right; }
+.report-main { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 28px; align-items: center; padding: 24px 22px 18px; }
+.report-sec { padding: 0 22px 22px; }
+.gauge { position: relative; width: 156px; height: 156px; flex: none; }
+.gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
+.g-track { fill: none; stroke: var(--surface-2); stroke-width: 12; }
+.g-arc { fill: none; stroke: url(#gaugeGrad); stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 1.3s cubic-bezier(.3,.7,.3,1); }
+.g-mid { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.g-mid b { font-family: var(--f-display); font-weight: 800; font-size: 48px; line-height: 1; letter-spacing: -.03em; }
+.g-mid small { font-family: var(--f-mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
+.report .stamp { display: inline-block; margin-top: 12px; transform: rotate(-3deg); animation-delay: .7s; }
+.stat-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.stat-tile { background: var(--surface-2); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; min-width: 0; }
+.stat-tile span { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.stat-tile b { font-family: var(--f-display); font-weight: 800; font-size: 30px; line-height: 1.15; }
+.stat-tile small { color: var(--muted); font-size: 13px; }
+.tray-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+.tray-head .legend { margin-top: 0; }
+.legend i.ring { border-radius: 50%; }
+.tray { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 12px 6px; margin-top: 12px; }
+.tray-item { display: flex; flex-direction: column; align-items: center; gap: 5px; background: none; border: 0; padding: 4px 0; border-radius: 12px; animation: trayin .45s both; animation-delay: calc(var(--i) * 22ms); }
+.tray-eye { width: 58px; height: 58px; border-radius: 50%; padding: 4px; background: conic-gradient(var(--good) 0 var(--g), var(--bad) var(--g) var(--b), var(--line) var(--b) 100%); box-shadow: 0 6px 14px -8px rgba(19,41,75,.55); transition: transform .15s; }
+.tray-eye img { width: 100%; height: 100%; display: block; border-radius: 50%; object-fit: cover; border: 2px solid var(--surface); }
+.tray-item:hover .tray-eye { transform: scale(1.07); }
+.tray-n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); line-height: 1; }
+.tray-dots { display: flex; gap: 3px; }
+.tray-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.tray-dots i.ok { background: var(--good); } .tray-dots i.half { background: var(--warn); } .tray-dots i.no { background: var(--bad); }
+@keyframes trayin { from { opacity: 0; transform: translateY(6px) scale(.9); } }
+.results .bar { height: 14px; }
+.results .bar i { width: 0; background: linear-gradient(90deg, var(--hema), var(--eosin)); transition: width .9s cubic-bezier(.3,.7,.3,1); }
+.bar-tag { display: inline-block; margin-left: 6px; font-style: normal; font-family: var(--f-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 1px 6px; border-radius: 99px; vertical-align: 1px; }
+.bar-tag.good { background: var(--good-soft); color: var(--good); } .bar-tag.warn { background: var(--warn-soft); color: var(--warn); }
+.report-modal { width: min(640px, 100%); }
+.report-preview { position: relative; margin-top: 14px; aspect-ratio: 8.5 / 11; max-height: 58vh; margin-inline: auto; border-radius: 10px; overflow: hidden; background: var(--surface-2); box-shadow: 0 0 0 1px var(--line), 0 12px 30px -16px rgba(0,0,0,.5); display: grid; place-items: center; color: var(--muted); }
+.report-preview img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: #fff; }
+@media (max-width: 560px) {
+  .report .report-main { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .report .report-main .who-row { justify-content: center; }
+  .report-band { padding: 10px 16px; font-size: 12.5px; }
+  .report-band em { display: none; }
+  .report-sec { padding: 0 16px 18px; }
+  .stat-tile b { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) { .tray-item, .report .stamp { animation: none; } .g-arc, .results .bar i { transition: none; } }
+
 /* ---------- Scope Lab ---------- */
 .scope-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
 .scope-tabs button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 16px; font-weight: 700; min-height: 40px; }
@@ -537,7 +588,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 .segs button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
 .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 .photo-modal { width: min(460px, 100%); }
-.photo-note { color: var(--muted); font-size: 14px; margin: 2px 0 14px; }
+.modal-note { color: var(--muted); font-size: 14px; margin: 2px 0 14px; }
 .photo-msg { background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 8px 12px; font-weight: 700; font-size: 14.5px; margin: 12px 0 0; }
 .photo-frame { position: relative; width: min(240px, 70%); max-width: calc(46vh * 66 / 78); aspect-ratio: 66 / 78; margin: 16px auto 0; border-radius: 18px; overflow: hidden; background: var(--stage); box-shadow: inset 0 0 0 1px var(--line); }
 .photo-frame video, .photo-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -566,6 +617,9 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
   .bench { position: static; }
   .results { grid-template-columns: 1fr; }
   .score-card { grid-template-columns: 1fr; gap: 12px; }
+  .report-main { grid-template-columns: auto minmax(0, 1fr); gap: 18px 22px; }
+  .report-main > :last-child { grid-column: 1 / -1; }
+  .stat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dock { grid-template-columns: 1fr 1fr; }
   .dock .lock { grid-column: 1 / -1; }
 }
@@ -1109,7 +1163,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 <div class="modal" id="confirmModal" hidden>
   <div class="sheet-modal" role="dialog" aria-modal="true" aria-labelledby="confTitle">
     <h2 id="confTitle">Start over?</h2>
-    <p style="color:var(--muted)">This clears every answer, your Scope Skills progress, and your name and badge photo on this device.</p>
+    <p style="color:var(--muted)">This clears every answer, your Scope Skills progress, your reflection, and your name and badge photo on this device.</p>
     <div class="modal-actions"><button class="btn" id="confNo">Keep my work</button><button class="btn primary" id="confYes" style="background:var(--bad);border-color:var(--bad)">Clear everything</button></div>
   </div>
 </div>
@@ -1117,7 +1171,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 <div class="modal" id="photoModal" hidden>
   <div class="sheet-modal photo-modal" role="dialog" aria-modal="true" aria-labelledby="photoTitle">
     <h2 id="photoTitle">Badge photo</h2>
-    <p class="photo-note">Your photo stays on this device. It is never uploaded or shared.</p>
+    <p class="modal-note">Your photo stays on this device. It is never uploaded or shared.</p>
     <div class="segs" id="photoChoices" role="group" aria-label="Badge photo options">
       <button type="button" data-src="camera">Take a photo</button>
       <button type="button" data-src="upload">Upload a photo</button>
@@ -1138,6 +1192,19 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
       <button class="btn" id="photoRetake" hidden>Retake</button>
       <button class="btn primary" id="photoCapture" hidden>Capture</button>
       <button class="btn primary" id="photoUse" hidden>Use this photo</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="reportModal" hidden>
+  <div class="sheet-modal report-modal" role="dialog" aria-modal="true" aria-labelledby="repTitle">
+    <h2 id="repTitle">Save your shift report</h2>
+    <p class="modal-note">A one-page copy of your results and reflection for your portfolio. It downloads to this device, so nothing is turned in. Then add it to your portfolio folder in Google Drive.</p>
+    <div class="report-preview"><span id="reportWait">Preparing your report…</span><img id="reportImg" alt="Preview of your one-page shift report" hidden></div>
+    <div class="modal-actions">
+      <button class="btn ghost" id="reportClose">Close</button>
+      <button class="btn" id="reportPng" disabled>Save as PNG</button>
+      <button class="btn primary" id="reportPdf" disabled>Save as PDF</button>
     </div>
   </div>
 </div>
@@ -1730,7 +1797,7 @@ const IMG_BASE = 'img/';
 /* ---------- Persistence ---------- */
 const KEY = 'mustang-histo-lab-v1';
 const DEFAULTS = { anim: 'full', focus: false, mode: 'mc', timer: 0, motion: 'full', sound: false };
-let S = { name: '', photo: null, answers: {}, review: {}, cur: 0, settings: { ...DEFAULTS }, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
+let S = { name: '', photo: null, reflection: null, answers: {}, review: {}, cur: 0, settings: { ...DEFAULTS }, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
 try { const raw = localStorage.getItem(KEY); if (raw) { const d = JSON.parse(raw); S = { ...S, ...d, settings: { ...DEFAULTS, ...(d.settings || {}) }, scope: { missions: {}, parts: null, ...(d.scope || {}) } }; } } catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
@@ -1859,13 +1926,14 @@ const isReduced = () => document.documentElement.classList.contains('reduce-moti
 function hashStr(s) { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 function initials(n) { const p = n.trim().split(/\s+/).filter(Boolean); return p.length ? (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase() : '?'; }
 function fmtTime(d) { return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
+function badgeId(n) { return 'MMH-' + String(1000 + hashStr((n || '').trim().toLowerCase() || 'trainee') % 9000); }
 const CAM_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg>';
 function updateBadge() {
   const n = (S.name || '').trim(), h = hashStr(n.toLowerCase() || 'trainee');
   const ph = $('#idPhoto'), lbl = S.photo ? 'Change photo' : 'Add photo';
   ph.replaceChildren(S.photo ? el('img', { src: S.photo, alt: '' }) : el('span', {}, initials(n)), S.photo ? null : el('span', { class: 'id-cam', html: CAM_ICON }));
   ph.setAttribute('aria-label', lbl); ph.title = lbl;
-  $('#idNum').textContent = 'MMH-' + String(1000 + h % 9000);
+  $('#idNum').textContent = badgeId(n);
   let bars = '', x = 0, r = mulberry(h);
   while (x < 196) { const w = 1 + Math.floor(r() * 3.2); if (r() > 0.38) bars += `<rect x="${x}" y="0" width="${w}" height="22" fill="#13294b"/>`; x += w + 1; }
   $('#idBar').innerHTML = bars;
@@ -2694,35 +2762,78 @@ function holdRepeat(buttons, fn) {
    ============================================================ */
 function isMissed(i) { return STATIONS[i].qs.some(q => S.answers[q.n] && S.answers[q.n].ok < 1); }
 function nextMissed(from) { for (let i = from + 1; i < STATIONS.length; i++) if (isMissed(i)) return i; return null; }
-function renderResults() {
-  const R = $('#resultsBody'); R.innerHTML = '';
+const SHIELD_D = ['M8 6 h32 a4 4 0 0 1 4 4 v14 c0 11 -9 18 -20 22 C13 42 4 35 4 24 V10 a4 4 0 0 1 4 -4 Z', 'M22 18 h4 v4 h4 v4 h-4 v4 h-4 v-4 h-4 v-4 h4 Z'];
+const SHIELD = `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="${SHIELD_D[0]}" fill="#ffffff"/><path d="${SHIELD_D[1]}" fill="#4b9cd3"/></svg>`;
+// everything the Shift report shows, shared by the page and the saved copy
+function reportStats() {
   const { pts, answered } = totals();
-  const pct = Math.round(pts / TOTAL * 100);
-  const date = new Date().toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-  const score = el('div', { class: 'card score-card' },
-    el('div', { class: 'big-score mono' }, fmtPts(pts), el('small', {}, ` / ${TOTAL}`)),
-    el('div', {}, el('div', { class: 'eyebrow', style: 'margin-bottom:6px' }, 'Mustang Memorial · Shift report'), el('div', { class: 'who who-row' }, S.photo ? el('img', { class: 'who-photo', src: S.photo, alt: '' }) : null, el('span', {}, S.name || 'Add your name on your badge (Home page)')), el('div', { class: 'who-sub' }, `Focus Pocus: A Virtual Histology Lab Practical · ${date}`),
-      el('div', { class: 'who-sub', style: 'margin-top:4px' }, `${answered} of ${TOTAL} answered · ${pct}% correct` + (S.settings.mode === 'typed' ? ' · Challenge mode' : '') + (S.technique.stations ? ` · Focused ${S.technique.stations} slides, ${S.technique.errors} technique slips` : ''))),
-    el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap' }, el('button', { class: 'btn', onclick: () => go('practical') }, answered < TOTAL ? 'Keep going' : 'Back to stations')));
-  const grid = el('div', { class: 'qgrid' });
-  ALL_Q.forEach(q => { const a = S.answers[q.n]; grid.append(el('button', { class: 'qcell mono ' + (a ? (a.ok === 1 ? 'ok' : a.ok > 0 ? 'half' : 'no') : ''), title: `Q${q.n} · Station ${q.st + 1}`, onclick: () => { reviewMode = false; S.cur = q.st; go('practical'); } }, String(q.n))); });
-  score.append(el('div', { style: 'grid-column:1/-1' }, grid, el('div', { class: 'legend' }, el('span', {}, el('i', { style: 'background:var(--good)' }), 'Correct'), el('span', {}, el('i', { style: 'background:var(--warn)' }), 'Partly'), el('span', {}, el('i', { style: 'background:var(--bad)' }), 'Missed'), el('span', {}, el('i', { style: 'background:var(--surface-2)' }), 'Not answered'))));
-  R.append(score);
-
-  // skill breakdown
   const skills = {}, groups = {};
+  let streak = 0, run = 0;
   ALL_Q.forEach(q => {
     const a = S.answers[q.n], k = qSkill(q), g = STATIONS[q.st].group;
-    for (const [m, key] of [[skills, k], [groups, g]]) { m[key] = m[key] || { p: 0, t: 0 }; m[key].t++; if (a) m[key].p += a.ok; }
+    for (const [m, key] of [[skills, k], [groups, g]]) { m[key] = m[key] || { p: 0, t: 0, n: 0 }; m[key].t++; if (a) { m[key].p += a.ok; m[key].n++; } }
+    run = a && a.ok === 1 ? run + 1 : 0; streak = Math.max(streak, run);
   });
+  const pct = Math.round(pts / TOTAL * 100), pctAns = answered ? Math.round(pts / answered * 100) : 0;
+  const perfect = STATIONS.filter((s, i) => stationState(i) === 'all').length;
+  const stars = Object.values(S.scope.missions).reduce((t, m) => t + (m.stars || 0), 0);
+  // [label, color token]; the rank is only given once every question is answered
+  const rank = answered < TOTAL ? ['Shift in progress', 'muted'] : pct >= 90 ? ['Attending ready', 'good'] : pct >= 75 ? ['Chief resident', 'accent-ink'] : pct >= 60 ? ['Resident', 'hema'] : ['Intern', 'warn'];
+  return { pts, answered, pct, pctAns, perfect, streak, stars, rank, skills, groups };
+}
+const ansCls = a => a ? (a.ok === 1 ? 'ok' : a.ok > 0 ? 'half' : 'no') : '';
+function renderResults() {
+  const R = $('#resultsBody'); R.innerHTML = '';
+  const st = reportStats(), { pts, answered, pct, skills, groups } = st;
+  const date = new Date().toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  const fx = !calm();
+  const gauge = el('div', { class: 'gauge', role: 'img', 'aria-label': `${fmtPts(pts)} of ${TOTAL} correct, ${pct}%`,
+    html: `<svg viewBox="0 0 120 120"><defs><linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--hema)"/><stop offset="1" style="stop-color:var(--eosin)"/></linearGradient></defs><circle class="g-track" cx="60" cy="60" r="52"/><circle class="g-arc" cx="60" cy="60" r="52" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"${pts ? '' : ' visibility="hidden"'}/></svg>` },
+    el('div', { class: 'g-mid', 'aria-hidden': 'true' }, el('b', {}, fx && pts ? '0' : fmtPts(pts)), el('small', {}, `of ${TOTAL} · ${pct}%`)));
+  const tiles = el('div', { class: 'stat-tiles' }, [
+    ['Accuracy', answered ? st.pctAns + '%' : '—', 'of the questions you answered'],
+    ['Perfect stations', `${st.perfect}/${STATIONS.length}`, 'every question right'],
+    ['Best streak', String(st.streak), 'correct in a row'],
+    ['Scope stars', `${st.stars}/9`, 'from Scope Skills missions']
+  ].map(([l, v, d]) => el('div', { class: 'stat-tile' }, el('span', {}, l), el('b', {}, v), el('small', {}, d))));
+  const tray = el('div', { class: 'tray' });
+  STATIONS.forEach((s, i) => {
+    let p = 0, n = 0; s.qs.forEach(q => { const a = S.answers[q.n]; if (a) { n++; p += a.ok; } });
+    const k = s.qs.length;
+    tray.append(el('button', { class: 'tray-item', type: 'button', style: `--i:${i}`, 'aria-label': `Station ${i + 1}: ` + (n ? `${fmtPts(p)} of ${k} correct` : 'not answered yet'), onclick: () => { reviewMode = false; S.cur = i; go('practical'); } },
+      el('span', { class: 'tray-eye', style: `--g:${p / k * 100}%;--b:${n / k * 100}%` }, el('img', { src: IMG_BASE + 'thumbs/' + s.img, alt: '', width: '50', height: '50', decoding: 'async' })),
+      el('span', { class: 'tray-n' }, String(i + 1).padStart(2, '0')),
+      el('span', { class: 'tray-dots', 'aria-hidden': 'true' }, s.qs.map(q => el('i', { class: ansCls(S.answers[q.n]) })))));
+  });
+  const legend = el('div', { class: 'legend' }, [['--good', 'Correct'], ['--warn', 'Partly'], ['--bad', 'Missed'], ['--line', 'Not answered']].map(([c, t]) => el('span', {}, el('i', { class: 'ring', style: `background:var(${c})` }), t)));
+  const score = el('div', { class: 'card report' },
+    el('div', { class: 'report-band', html: SHIELD }, el('span', {}, 'Mustang Memorial · Shift report'), el('em', {}, `${badgeId(S.name)} · Lab B12`)),
+    el('div', { class: 'report-main' }, gauge,
+      el('div', {}, el('div', { class: 'who who-row' }, S.photo ? el('img', { class: 'who-photo', src: S.photo, alt: '' }) : null, el('span', {}, S.name || 'Add your name on your badge (Home page)')), el('div', { class: 'who-sub' }, `Focus Pocus: A Virtual Histology Lab Practical · ${date}`),
+        el('div', { class: 'who-sub', style: 'margin-top:4px' }, `${answered} of ${TOTAL} answered` + (S.settings.mode === 'typed' ? ' · Challenge mode' : '') + (S.technique.stations ? ` · Focused ${S.technique.stations} slides, ${S.technique.errors} technique slips` : '')),
+        el('span', { class: 'stamp', style: `color:var(--${st.rank[1]})` }, st.rank[0])),
+      el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap' }, el('button', { class: 'btn', onclick: () => go('practical') }, answered < TOTAL ? 'Keep going' : 'Back to stations'))),
+    el('div', { class: 'report-sec' }, tiles, el('div', { class: 'tray-head' }, el('div', { class: 'eyebrow' }, 'Specimen tray · tap a slide to revisit it'), legend), tray));
+  R.append(score);
+
+  // skill breakdown; tag the strongest and weakest of the areas answered so far
   const barCard = (title, sub, data) => {
     const c = el('div', { class: 'card' }, el('h3', {}, title), el('p', { class: 'muted' }, sub));
     const b = el('div', { class: 'bars' });
-    Object.entries(data).forEach(([k, v]) => b.append(el('div', { class: 'bar-row' }, el('span', {}, k), el('div', { class: 'bar' }, el('i', { style: `width:${v.p / v.t * 100}%` })), el('span', { class: 'mono' }, `${fmtPts(v.p)}/${v.t}`))));
+    const seen = Object.values(data).filter(v => v.n).map(v => v.p / v.t), hi = Math.max(...seen), lo = Math.min(...seen), tag = seen.length > 1 && hi > lo;
+    Object.entries(data).forEach(([k, v]) => {
+      const r = v.p / v.t, mark = tag && v.n ? (r === hi ? el('em', { class: 'bar-tag good' }, 'Strongest') : r === lo ? el('em', { class: 'bar-tag warn' }, 'Practice') : null) : null;
+      b.append(el('div', { class: 'bar-row' }, el('span', {}, k, mark), el('div', { class: 'bar' }, el('i', { 'data-w': `${r * 100}%` })), el('span', { class: 'mono' }, `${fmtPts(v.p)}/${v.t}`)));
+    });
     c.append(b); return c;
   };
   R.append(barCard('By question type', 'Where your points came from.', skills));
   R.append(barCard('By tissue family', 'Mixed is the skin cross-section at Station 10.', groups));
+  requestAnimationFrame(() => requestAnimationFrame(() => {   // let the ring and bars grow in from zero
+    const arc = $('.g-arc', R); if (arc) arc.style.strokeDashoffset = 100 - pts / TOTAL * 100;
+    $$('[data-w]', R).forEach(i => i.style.width = i.dataset.w);
+  }));
+  if (fx && pts) { const b = $('.g-mid b', R); tween(1300, p => { b.textContent = fmtPts(Math.round(pts * ease.out(p) * 2) / 2); }); }
 
   // portfolio reflection (Self-Directed Learner)
   const SKILL_PHRASE = { 'Tissue category': 'naming the main tissue category', 'Identify the tissue': 'identifying the specific tissue', 'Cells & structures': 'naming cells and structures', 'Location in the body': 'knowing where each tissue is found', 'Function & control': 'explaining function and control' };
@@ -2741,13 +2852,18 @@ function renderResults() {
     el('p', { class: 'muted' }, 'Focus Pocus is practice, so there is nothing to turn in. Instead, add your results to the Self-Directed Learner section of your portfolio: show how you checked your own understanding, found your gaps, and what you did to close them.'));
   if (answered) {
     const ta = el('textarea', { class: 'field', id: 'reflectBox', rows: '5', 'aria-label': 'Portfolio reflection' });
-    ta.value = lines;
-    const copyBtn = el('button', { class: 'btn primary small', type: 'button', onclick: () => {
+    ta.value = S.reflection || lines;   // keep the student's own edits across visits
+    ta.addEventListener('input', () => { S.reflection = ta.value; save(); });
+    const copyBtn = el('button', { class: 'btn small', type: 'button', onclick: () => {
       const done = () => toast('Copied. Paste it into your portfolio and finish the last sentence.');
       try { navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); toast('Press Ctrl+C to copy.'); }); } catch (e) { ta.select(); toast('Press Ctrl+C to copy.'); }
     } }, 'Copy reflection');
-    pf.append(el('p', { class: 'muted', style: 'margin-top:12px' }, 'Here is a starter built from your results. Make it yours, and finish the last sentence in your own words.'), ta,
-      el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center' }, copyBtn, el('span', { class: 'muted', style: 'font-size:14px' }, 'Tip: include a screenshot of this page alongside it.')));
+    const saveBtn = el('button', { class: 'btn primary small', type: 'button', onclick: () => openReport(ta) }, 'Save a copy (PDF or PNG)');
+    const fresh = S.reflection && S.reflection !== lines ? el('button', { class: 'btn ghost small', type: 'button', onclick: () => {
+      S.reflection = null; save(); ta.value = lines; fresh.remove(); toast('Starter rebuilt from your latest results.');
+    } }, 'Rebuild starter') : null;
+    pf.append(el('p', { class: 'muted', style: 'margin-top:12px' }, 'Here is a starter built from your results. Make it yours, finish the last sentence in your own words, then save a copy for your portfolio.'), ta,
+      el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center' }, saveBtn, copyBtn, fresh, el('span', { class: 'muted', style: 'font-size:14px' }, 'Your edits stay on this device.')));
   } else pf.append(el('p', { class: 'muted', style: 'margin-top:8px' }, 'Answer a few stations and a reflection starter will appear here.'));
   score.after(pf);
 
@@ -2786,6 +2902,190 @@ function startReview(i) {
   openStation(i, { review: true });
 }
 
+/* ---------- Portfolio copy: a one-page report drawn on a canvas, saved as PNG or wrapped in a PDF ---------- */
+const REP_W = 850, REP_H = 1100, REP_SCALE = 2;   // US Letter at 100 units per inch, drawn at 200 dpi
+const REP_FONTS = ['800 40px "Bricolage Grotesque"', '400 15px "Atkinson Hyperlegible"', '500 12px "IBM Plex Mono"', '600 12px "IBM Plex Mono"', '800 20px Overpass', '700 13px Overpass'];
+function loadSrc(src) { return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+function wrapLines(x, text, maxW) {
+  const out = [];
+  for (const para of text.split(/\n+/)) {
+    let line = '';
+    for (const w of para.split(/\s+/).filter(Boolean)) { const t = line ? line + ' ' + w : w; if (line && x.measureText(t).width > maxW) { out.push(line); line = w; } else line = t; }
+    if (line) out.push(line);
+  }
+  return out;
+}
+async function drawReport(reflection) {
+  try { await Promise.all(REP_FONTS.map(f => document.fonts.load(f))); } catch (e) {}
+  const st = reportStats(), { pts, answered, pct } = st, name = (S.name || '').trim(), date = new Date();
+  const [photo, ...thumbs] = await Promise.all([S.photo ? loadSrc(S.photo).catch(() => null) : null, ...STATIONS.map(s => loadImg('thumbs/' + s.img).catch(() => null))]);
+  const c = document.createElement('canvas'); c.width = REP_W * REP_SCALE; c.height = REP_H * REP_SCALE;
+  const x = c.getContext('2d'); x.scale(REP_SCALE, REP_SCALE);
+  // always the light palette, so it prints well
+  const C = { ink: '#13294b', muted: '#566a86', line: '#d4e0ec', soft: '#eef4fa', carolina: '#4b9cd3', 'accent-ink': '#1d6aa3', good: '#16895c', bad: '#cc3d3d', warn: '#b97300', hema: '#5b3f99', eosin: '#c93c7c' };
+  const D = '"Bricolage Grotesque", "Segoe UI", sans-serif', B = '"Atkinson Hyperlegible", "Segoe UI", sans-serif', M = '"IBM Plex Mono", Menlo, monospace', G = 'Overpass, "Segoe UI", sans-serif';
+  const sp = v => { if ('letterSpacing' in x) x.letterSpacing = v + 'px'; };
+  const text = (s, X, Y, f, col, align = 'left', ls = 0) => { x.font = f; x.fillStyle = col; x.textAlign = align; sp(ls); x.fillText(s, X, Y); sp(0); };
+  const box = (X, Y, w, h, r) => { x.beginPath(); if (x.roundRect) x.roundRect(X, Y, w, h, r); else x.rect(X, Y, w, h); };
+  const cover = (img, X, Y, w, h) => { const k = Math.max(w / img.naturalWidth, h / img.naturalHeight), dw = img.naturalWidth * k, dh = img.naturalHeight * k; x.drawImage(img, X + (w - dw) / 2, Y + (h - dh) / 2, dw, dh); };
+  const stain = (x0, y0, x1, y1) => { const g = x.createLinearGradient(x0, y0, x1, y1); g.addColorStop(0, C.hema); g.addColorStop(1, C.eosin); return g; };
+  x.fillStyle = '#fff'; x.fillRect(0, 0, REP_W, REP_H);
+
+  // letterhead
+  x.fillStyle = C.ink; x.fillRect(0, 0, REP_W, 92); x.fillStyle = C.carolina; x.fillRect(0, 92, REP_W, 6);
+  x.save(); x.translate(50, 22); x.fillStyle = '#fff'; x.fill(new Path2D(SHIELD_D[0])); x.fillStyle = C.carolina; x.fill(new Path2D(SHIELD_D[1])); x.restore();
+  text('MUSTANG MEMORIAL', 112, 50, `800 24px ${G}`, '#fff', 'left', 2.4);
+  text('HOSPITAL · DEPARTMENT OF PATHOLOGY · HISTOLOGY LAB B12', 112, 70, `600 10.5px ${M}`, '#a9d2f0', 'left', 1.2);
+  text('SHIFT REPORT', 800, 50, `800 20px ${G}`, '#fff', 'right', 2.4);
+  text(date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase(), 800, 70, `600 10.5px ${M}`, '#a9d2f0', 'right', 1.2);
+
+  // trainee: badge photo (or initials), name, rank stamp
+  const px = 50, py = 128, pw = 104, ph = 123;
+  x.save(); box(px, py, pw, ph, 12); x.clip();
+  if (photo) cover(photo, px, py, pw, ph);
+  else { const g = x.createLinearGradient(px, py, px + pw, py + ph); g.addColorStop(0, '#dcecf8'); g.addColorStop(1, '#a7d3f2'); x.fillStyle = g; x.fillRect(px, py, pw, ph); text(initials(name), px + pw / 2, py + ph / 2 + 14, `800 40px ${D}`, C.ink, 'center'); }
+  x.restore(); box(px, py, pw, ph, 12); x.lineWidth = 2; x.strokeStyle = 'rgba(19,41,75,.15)'; x.stroke();
+  const who = name || 'Histology trainee';
+  let ns = 40; x.font = `800 ${ns}px ${D}`;
+  while (x.measureText(who).width > 460 && ns > 22) { ns -= 2; x.font = `800 ${ns}px ${D}`; }
+  text(who, 178, 168, x.font, C.ink);
+  text('HISTOLOGY TRAINEE', 178, 194, `700 13px ${G}`, C['accent-ink'], 'left', 1.6);
+  text(`ID ${badgeId(name)}  ·  Lab B12  ·  ${date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}`, 178, 216, `500 12px ${M}`, C.muted);
+  text('Focus Pocus: A Virtual Histology Lab Practical', 178, 236, `400 13.5px ${B}`, C.muted);
+  const rankTxt = st.rank[0].toUpperCase(), rc = C[st.rank[1]];
+  x.save(); x.translate(180, 266); x.rotate(-0.05); x.font = `800 13px ${G}`; sp(2);
+  box(0, -15, x.measureText(rankTxt).width + 20, 30, 7); x.lineWidth = 2.5; x.strokeStyle = rc; x.stroke();
+  x.fillStyle = rc; x.textAlign = 'left'; x.fillText(rankTxt, 11, 5); sp(0); x.restore();
+
+  // H&E score ring
+  const gx = 735, gy = 184, gr = 64;
+  x.lineWidth = 16; x.lineCap = 'round'; x.strokeStyle = C.soft; x.beginPath(); x.arc(gx, gy, gr, 0, Math.PI * 2); x.stroke();
+  if (pts > 0) { x.strokeStyle = stain(gx - gr, gy - gr, gx + gr, gy + gr); x.beginPath(); x.arc(gx, gy, gr, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * pts / TOTAL); x.stroke(); }
+  x.lineCap = 'butt';
+  text(fmtPts(pts), gx, gy + 10, `800 42px ${D}`, C.ink, 'center', -1);
+  text(`of ${TOTAL} · ${pct}%`, gx, gy + 30, `500 11.5px ${M}`, C.muted, 'center');
+  text(`${answered} of ${TOTAL} answered`, gx, gy + gr + 30, `500 11.5px ${M}`, C.muted, 'center');
+
+  // stat tiles
+  const tw = (750 - 36) / 4;
+  [['ACCURACY', answered ? st.pctAns + '%' : '—', 'of questions answered'], ['PERFECT STATIONS', `${st.perfect}/${STATIONS.length}`, 'every question right'], ['BEST STREAK', String(st.streak), 'correct in a row'], ['SCOPE STARS', `${st.stars}/9`, 'Scope Skills missions']].forEach(([l, v, d], i) => {
+    const tx = 50 + i * (tw + 12);
+    x.fillStyle = C.soft; box(tx, 306, tw, 84, 12); x.fill();
+    text(l, tx + 14, 328, `600 9.5px ${M}`, C.muted, 'left', 1.3); text(v, tx + 14, 360, `800 28px ${D}`, C.ink); text(d, tx + 14, 378, `400 11.5px ${B}`, C.muted);
+  });
+
+  // specimen tray: each slide ringed by how much of that station was right, missed, or not answered
+  text('SPECIMEN TRAY', 50, 424, `600 10.5px ${M}`, C['accent-ink'], 'left', 1.6);
+  let lx = 800;
+  for (const [t, col] of [['Not answered', C.line], ['Missed', C.bad], ['Correct', C.good]]) {
+    x.font = `400 11px ${B}`; lx -= x.measureText(t).width; text(t, lx, 424, x.font, C.muted);
+    x.fillStyle = col; x.beginPath(); x.arc(lx - 9, 420, 4.5, 0, Math.PI * 2); x.fill(); lx -= 28;
+  }
+  STATIONS.forEach((s, i) => {
+    const cx = 50 + 62.5 * (i % 12) + 31.25, cy = 470 + 84 * Math.floor(i / 12), k = s.qs.length;
+    let p = 0, n = 0; s.qs.forEach(q => { const a = S.answers[q.n]; if (a) { n++; p += a.ok; } });
+    const seg = (a0, a1, col) => { if (a1 <= a0) return; x.beginPath(); x.arc(cx, cy, 25, -Math.PI / 2 + a0 * Math.PI * 2, -Math.PI / 2 + a1 * Math.PI * 2); x.strokeStyle = col; x.lineWidth = 5; x.stroke(); };
+    seg(0, p / k, C.good); seg(p / k, n / k, C.bad); seg(n / k, 1, C.line);
+    if (thumbs[i]) { x.save(); x.beginPath(); x.arc(cx, cy, 21, 0, Math.PI * 2); x.clip(); cover(thumbs[i], cx - 21, cy - 21, 42, 42); x.restore(); }
+    text(String(i + 1).padStart(2, '0'), cx, cy + 42, `500 10px ${M}`, C.muted, 'center');
+  });
+
+  // skill bars, two columns
+  [['BY QUESTION TYPE', st.skills, 50], ['BY TISSUE FAMILY', st.groups, 445]].forEach(([h, data, bx]) => {
+    text(h, bx, 636, `600 10.5px ${M}`, C['accent-ink'], 'left', 1.6);
+    Object.entries(data).forEach(([k, v], j) => {
+      const y = 664 + j * 28, r = v.p / v.t;
+      text(k, bx, y, `400 13px ${B}`, C.ink);
+      x.fillStyle = C.soft; box(bx + 150, y - 9, 150, 9, 4.5); x.fill();
+      if (r > 0) { x.fillStyle = stain(bx + 150, 0, bx + 300, 0); box(bx + 150, y - 9, Math.max(9, 150 * r), 9, 4.5); x.fill(); }
+      text(`${fmtPts(v.p)}/${v.t}`, bx + 355, y, `500 11.5px ${M}`, C.muted, 'right');
+    });
+  });
+
+  // reflection, shrunk to fit the space left above the footer
+  const rows = Math.max(Object.keys(st.skills).length, Object.keys(st.groups).length);
+  const ry = Math.max(812, 664 + 28 * rows - 4), room = 1018 - ry - 46;
+  let fs = 15, lines;
+  for (;;) { x.font = `400 ${fs}px ${B}`; lines = wrapLines(x, reflection, 700); if (lines.length * fs * 1.45 <= room || fs <= 10.5) break; fs -= 0.5; }
+  const lh = fs * 1.45, fit = Math.max(1, Math.floor(room / lh));
+  if (lines.length > fit) { lines = lines.slice(0, fit); lines[fit - 1] = lines[fit - 1].replace(/\s*\S*$/, '') + '…'; }
+  const rh = 46 + lines.length * lh;
+  x.fillStyle = '#fffdf7'; box(50, ry, 750, rh, 12); x.fill(); x.strokeStyle = C.line; x.lineWidth = 1; x.stroke();
+  x.fillStyle = C.carolina; box(50, ry, 5, rh, [12, 0, 0, 12]); x.fill();
+  text('SELF-DIRECTED LEARNER REFLECTION', 74, ry + 28, `600 10.5px ${M}`, C['accent-ink'], 'left', 1.6);
+  lines.forEach((l, i) => text(l, 74, ry + 52 + i * lh, `400 ${fs}px ${B}`, C.ink));
+
+  // footer
+  x.fillStyle = C.line; x.fillRect(50, 1036, 750, 1);
+  text(`Formative practice · nothing to turn in · Saved ${date.toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}`, 50, 1056, `500 9.5px ${M}`, C.muted);
+  text('Mustang Memorial Hospital is a fictional teaching hospital.', 50, 1071, `500 9.5px ${M}`, C.muted);
+  text('Little Chute High School · Human Anatomy & Physiology', 50, 1086, `500 9.5px ${M}`, C.muted);
+  [[16, C.ink], [11.5, C.carolina], [8.5, '#f4f8fc']].forEach(([r, col]) => { x.fillStyle = col; x.beginPath(); x.arc(784, 1066, r, 0, Math.PI * 2); x.fill(); });
+  x.fillStyle = C.eosin; x.beginPath(); x.arc(781, 1064, 3, 0, Math.PI * 2); x.fill();
+  x.fillStyle = C.hema; x.beginPath(); x.arc(787, 1069, 2.2, 0, Math.PI * 2); x.fill();
+  text('Focus Pocus', 760, 1072, `800 17px ${D}`, C.ink, 'right');
+  return c;
+}
+// a one-page PDF holding the report as a JPEG, so no PDF library is needed
+function jpegPdf(jpg, w, h, title) {
+  const enc = new TextEncoder(), parts = [], at = [];
+  let len = 0;
+  const put = d => { const b = typeof d === 'string' ? enc.encode(d) : d; parts.push(b); len += b.length; };
+  const obj = (n, ...body) => { at[n] = len; put(`${n} 0 obj\n`); body.forEach(put); put('\nendobj\n'); };
+  const draw = 'q 612 0 0 792 0 0 cm /Im0 Do Q';
+  put('%PDF-1.4\n');
+  obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+  obj(4, `<< /Type /XObject /Subtype /Image /Width ${w} /Height ${h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`, jpg, '\nendstream');
+  obj(5, `<< /Length ${draw.length} >>\nstream\n${draw}\nendstream`);
+  obj(6, `<< /Title (${title}) /Producer (Focus Pocus) >>`);
+  const xref = len;
+  put(`xref\n0 7\n0000000000 65535 f \n${at.slice(1).map(o => String(o).padStart(10, '0') + ' 00000 n \n').join('')}trailer\n<< /Size 7 /Root 1 0 R /Info 6 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+  return new Blob(parts, { type: 'application/pdf' });
+}
+const repModal = $('#reportModal');
+let repCanvas = null, repPng = null, repPdf = null, repUrl = null, repToken = 0;
+function reportFile(ext) {
+  const n = (S.name || '').replace(/[\\/:*?"<>|]+/g, '').trim() || 'Trainee';
+  return `Focus Pocus Shift Report - ${n} - ${new Date().toLocaleDateString('en-CA')}.${ext}`;
+}
+function downloadBlob(blob, name) {
+  const u = URL.createObjectURL(blob), a = el('a', { href: u, download: name });
+  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 10000);
+}
+async function openReport(ta) {
+  const text = ta.value.trim();
+  if (!text || /because\s*$/i.test(text)) {
+    toast('Finish your last sentence first, then save your copy.');
+    ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); return;
+  }
+  S.reflection = ta.value; save();
+  const token = ++repToken, img = $('#reportImg'), wait = $('#reportWait');
+  repCanvas = repPng = repPdf = null;
+  img.hidden = true; wait.hidden = false; wait.textContent = 'Preparing your report…';
+  $('#reportPng').disabled = $('#reportPdf').disabled = true;
+  repModal.hidden = false; $('#reportClose').focus();
+  try {
+    const c = await drawReport(text), png = await new Promise(r => c.toBlob(r, 'image/png'));
+    if (token !== repToken || repModal.hidden) return;
+    repCanvas = c; repPng = png;
+    if (repUrl) URL.revokeObjectURL(repUrl);
+    img.src = repUrl = URL.createObjectURL(png); img.hidden = false; wait.hidden = true;
+    $('#reportPng').disabled = $('#reportPdf').disabled = false; $('#reportPdf').focus();
+  } catch (e) { if (token === repToken) wait.textContent = "Sorry, your report couldn't be made on this device. Try Copy reflection instead."; }
+}
+function closeReport() { repToken++; repModal.hidden = true; }
+$('#reportPng').addEventListener('click', () => { if (!repPng) return; downloadBlob(repPng, reportFile('png')); toast('Saved. Add it to your portfolio folder in Google Drive.'); });
+$('#reportPdf').addEventListener('click', async () => {
+  if (!repCanvas) return;
+  if (!repPdf) { const j = await new Promise(r => repCanvas.toBlob(r, 'image/jpeg', 0.92)); repPdf = jpegPdf(new Uint8Array(await j.arrayBuffer()), repCanvas.width, repCanvas.height, 'Focus Pocus Shift Report'); }
+  downloadBlob(repPdf, reportFile('pdf')); toast('Saved. Add it to your portfolio folder in Google Drive.');
+});
+$('#reportClose').addEventListener('click', closeReport);
+repModal.addEventListener('click', e => { if (e.target === repModal) closeReport(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !repModal.hidden) { e.preventDefault(); closeReport(); } });
+
 /* ============================================================
    SETTINGS
    ============================================================ */
@@ -2806,7 +3106,7 @@ $('#resetBtn').addEventListener('click', () => { $('#settingsModal').hidden = tr
 $('#confNo').addEventListener('click', () => $('#confirmModal').hidden = true);
 $('#confYes').addEventListener('click', () => {
   const keep = S.settings;
-  S = { name: '', photo: null, badged: null, answers: {}, review: {}, cur: 0, settings: keep, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
+  S = { name: '', photo: null, reflection: null, badged: null, answers: {}, review: {}, cur: 0, settings: keep, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
   save(); nameInput.value = ''; $('#confirmModal').hidden = true; reviewMode = false; toast('Cleared. Fresh start!'); go('home');
 });
 syncSettings();
