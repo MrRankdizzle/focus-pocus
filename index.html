@@ -153,7 +153,12 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 .id-top svg { width: 20px; height: 20px; }
 .id-top em { margin-left: auto; font-style: normal; font-size: 11px; background: var(--sign); padding: 2px 8px; border-radius: 4px; letter-spacing: .12em; }
 .id-body { display: flex; gap: 14px; padding: 14px 14px 8px; align-items: center; }
-.id-photo { width: 66px; height: 78px; flex: none; border-radius: 8px; background: linear-gradient(160deg, #dcecf8, #a7d3f2); display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 26px; color: #13294b; box-shadow: inset 0 0 0 2px rgba(19,41,75,.12); }
+.id-photo { position: relative; width: 66px; height: 78px; flex: none; border: 0; padding: 0; border-radius: 8px; overflow: hidden; cursor: pointer; background: linear-gradient(160deg, #dcecf8, #a7d3f2); display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 26px; color: #13294b; }
+.id-photo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 2px rgba(19,41,75,.12); pointer-events: none; }
+.id-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.id-cam { position: absolute; right: 4px; bottom: 4px; width: 22px; height: 22px; border-radius: 50%; background: #13294b; color: #fff; display: grid; place-items: center; box-shadow: 0 0 0 2px #fff; transition: background .15s; }
+.id-cam svg { width: 13px; height: 13px; }
+.id-photo:hover .id-cam { background: #1d6aa3; }
 .id-info { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .id-lbl { font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #566a86; }
 .id-name { border: 0; border-bottom: 2px dashed #9bbbd6; background: transparent; padding: 2px 0 3px; font-family: var(--f-display); font-weight: 800; font-size: 21px; color: #13294b; width: 100%; min-width: 0; border-radius: 0; cursor: text; }
@@ -271,6 +276,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 .door.l .door-win { right: 10%; } .door.r .door-win { left: 10%; }
 .doors.shut .door { transform: none; }
 .door-msg { position: absolute; left: 50%; top: 72%; transform: translate(-50%, 0); background: var(--sign); color: #fff; border-radius: 14px; padding: 14px 22px; display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0; transition: opacity .25s; text-align: center; font-family: var(--f-sign); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+.door-photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid #4bd18f; margin-bottom: 4px; }
 .door-msg b { font-size: 22px; letter-spacing: .1em; text-transform: uppercase; }
 .door-msg span:last-child { font-size: 15px; color: #a9d2f0; letter-spacing: .04em; }
 .doors.msg .door-msg { opacity: 1; }
@@ -417,6 +423,9 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 .big-score small { font-size: .35em; color: var(--muted); letter-spacing: 0; font-weight: 700; }
 .who { font-family: var(--f-display); font-size: 24px; font-weight: 800; }
 .who-sub { color: var(--muted); font-family: var(--f-mono); font-size: 13px; }
+.who-row { display: flex; align-items: center; gap: 10px; }
+.who-row span { min-width: 0; }
+.who-photo { width: 40px; height: 40px; flex: none; border-radius: 50%; object-fit: cover; border: 2px solid var(--line); }
 .qgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); gap: 5px; margin-top: 18px; max-width: 760px; }
 .qcell { aspect-ratio: 1; border-radius: 6px; font-family: var(--f-mono); font-size: 11px; display: grid; place-items: center; background: var(--surface-2); color: var(--muted); border: 0; padding: 0; }
 .qcell.ok { background: var(--good); color: #fff; } .qcell.no { background: var(--bad); color: #fff; } .qcell.half { background: var(--warn); color: #fff; }
@@ -527,6 +536,19 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 .segs button { border: 1.5px solid var(--line); background: var(--surface); border-radius: 10px; padding: 7px 12px; font-weight: 700; font-size: 14px; min-height: 40px; }
 .segs button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
 .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.photo-modal { width: min(460px, 100%); }
+.photo-note { color: var(--muted); font-size: 14px; margin: 2px 0 14px; }
+.photo-msg { background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 8px 12px; font-weight: 700; font-size: 14.5px; margin: 12px 0 0; }
+.photo-frame { position: relative; width: min(240px, 70%); max-width: calc(46vh * 66 / 78); aspect-ratio: 66 / 78; margin: 16px auto 0; border-radius: 18px; overflow: hidden; background: var(--stage); box-shadow: inset 0 0 0 1px var(--line); }
+.photo-frame video, .photo-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-frame video { transform: scaleX(-1); }
+.photo-empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 16px; font-size: 14.5px; color: var(--stage-ink); }
+.photo-count { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 96px; color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.55); pointer-events: none; }
+.photo-count.pop { animation: countpop 1s ease-out; }
+@keyframes countpop { 0% { transform: scale(1.5); opacity: 0; } 20% { transform: none; opacity: 1; } 80% { opacity: 1; } 100% { transform: scale(.9); opacity: .2; } }
+.photo-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+.photo-flash.on { animation: shutter .45s ease-out; }
+@keyframes shutter { 0% { opacity: .95; } 100% { opacity: 0; } }
 .zoom-modal { background: #000; padding: 0; width: min(1200px, 100%); border-radius: 14px; overflow: hidden; position: relative; max-height: none; }
 .zoom-modal .specimen { border-radius: 0; }
 .zoom-modal .close { position: absolute; right: 10px; top: 10px; z-index: 3; }
@@ -636,7 +658,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
                   <span>Mustang Memorial</span><em>Staff</em>
                 </div>
                 <div class="id-body">
-                  <div class="id-photo" id="idPhoto" aria-hidden="true">?</div>
+                  <button type="button" class="id-photo" id="idPhoto" aria-label="Add photo" title="Add photo">?</button>
                   <div class="id-info">
                     <label class="id-lbl" for="studentName">Name</label>
                     <input class="id-name" id="studentName" autocomplete="off" placeholder="Type your name" maxlength="40">
@@ -746,7 +768,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
   <div class="doors" id="doors" hidden aria-hidden="true">
     <div class="door l"><span class="door-win"></span><span class="door-sign">HISTOLOGY</span></div>
     <div class="door r"><span class="door-win"></span><span class="door-sign">LAB B12</span></div>
-    <div class="door-msg"><span class="led on"></span><b>Access granted</b><span id="doorName">Welcome, trainee</span></div>
+    <div class="door-msg"><span class="led on"></span><img class="door-photo" id="doorPhoto" alt="" hidden><b>Access granted</b><span id="doorName">Welcome, trainee</span></div>
   </div>
 
   <!-- ================= PRACTICAL ================= -->
@@ -1087,8 +1109,36 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 <div class="modal" id="confirmModal" hidden>
   <div class="sheet-modal" role="dialog" aria-modal="true" aria-labelledby="confTitle">
     <h2 id="confTitle">Start over?</h2>
-    <p style="color:var(--muted)">This clears every answer, your Scope Skills progress, and your name on this device.</p>
+    <p style="color:var(--muted)">This clears every answer, your Scope Skills progress, and your name and badge photo on this device.</p>
     <div class="modal-actions"><button class="btn" id="confNo">Keep my work</button><button class="btn primary" id="confYes" style="background:var(--bad);border-color:var(--bad)">Clear everything</button></div>
+  </div>
+</div>
+
+<div class="modal" id="photoModal" hidden>
+  <div class="sheet-modal photo-modal" role="dialog" aria-modal="true" aria-labelledby="photoTitle">
+    <h2 id="photoTitle">Badge photo</h2>
+    <p class="photo-note">Your photo stays on this device. It is never uploaded or shared.</p>
+    <div class="segs" id="photoChoices" role="group" aria-label="Badge photo options">
+      <button type="button" data-src="camera">Take a photo</button>
+      <button type="button" data-src="upload">Upload a photo</button>
+      <button type="button" data-src="remove" id="photoRemoveOpt">Remove photo</button>
+    </div>
+    <p class="photo-msg" id="photoMsg" role="alert" hidden></p>
+    <div class="photo-frame">
+      <video id="photoVideo" playsinline muted autoplay hidden></video>
+      <img id="photoStill" alt="Your badge photo preview" hidden>
+      <div class="photo-empty" id="photoEmpty"></div>
+      <div class="photo-count" id="photoCount" aria-live="polite"></div>
+      <div class="photo-flash" id="photoFlash"></div>
+    </div>
+    <input type="file" accept="image/*" id="photoFile" hidden>
+    <div class="modal-actions">
+      <button class="btn ghost" id="photoCancel">Cancel</button>
+      <button class="btn" id="photoPick" hidden>Choose a photo…</button>
+      <button class="btn" id="photoRetake" hidden>Retake</button>
+      <button class="btn primary" id="photoCapture" hidden>Capture</button>
+      <button class="btn primary" id="photoUse" hidden>Use this photo</button>
+    </div>
   </div>
 </div>
 
@@ -1680,7 +1730,7 @@ const IMG_BASE = 'img/';
 /* ---------- Persistence ---------- */
 const KEY = 'mustang-histo-lab-v1';
 const DEFAULTS = { anim: 'full', focus: false, mode: 'mc', timer: 0, motion: 'full', sound: false };
-let S = { name: '', answers: {}, review: {}, cur: 0, settings: { ...DEFAULTS }, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
+let S = { name: '', photo: null, answers: {}, review: {}, cur: 0, settings: { ...DEFAULTS }, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
 try { const raw = localStorage.getItem(KEY); if (raw) { const d = JSON.parse(raw); S = { ...S, ...d, settings: { ...DEFAULTS, ...(d.settings || {}) }, scope: { missions: {}, parts: null, ...(d.scope || {}) } }; } } catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
@@ -1727,6 +1777,7 @@ function avgColor(img, key) {
 let curView = 'home';
 function go(v) {
   curView = v;
+  if (v !== 'home') closePhoto();
   $$('.view').forEach(s => s.hidden = s.id !== 'view-' + v);
   $$('.nav button').forEach(b => { if (b.dataset.go === v) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
   window.scrollTo({ top: 0 });
@@ -1808,9 +1859,12 @@ const isReduced = () => document.documentElement.classList.contains('reduce-moti
 function hashStr(s) { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 function initials(n) { const p = n.trim().split(/\s+/).filter(Boolean); return p.length ? (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase() : '?'; }
 function fmtTime(d) { return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
+const CAM_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg>';
 function updateBadge() {
   const n = (S.name || '').trim(), h = hashStr(n.toLowerCase() || 'trainee');
-  $('#idPhoto').textContent = initials(n);
+  const ph = $('#idPhoto'), lbl = S.photo ? 'Change photo' : 'Add photo';
+  ph.replaceChildren(S.photo ? el('img', { src: S.photo, alt: '' }) : el('span', {}, initials(n)), S.photo ? null : el('span', { class: 'id-cam', html: CAM_ICON }));
+  ph.setAttribute('aria-label', lbl); ph.title = lbl;
   $('#idNum').textContent = 'MMH-' + String(1000 + h % 9000);
   let bars = '', x = 0, r = mulberry(h);
   while (x < 196) { const w = 1 + Math.floor(r() * 3.2); if (r() > 0.38) bars += `<rect x="${x}" y="0" width="${w}" height="22" fill="#13294b"/>`; x += w + 1; }
@@ -1839,8 +1893,8 @@ function readerReach() {
 function setCardX(x, animate) { card._dx = x; card.style.transition = animate ? 'transform .45s cubic-bezier(.3,.7,.3,1)' : 'none'; card.style.transform = `translateX(${x}px) rotate(${x * 0.01}deg)`; }
 let cardDrag = null;
 card.addEventListener('pointerdown', e => {
-  if (e.target.closest('input')) return;
-  cardDrag = { x0: e.clientX - (card._dx || 0), reach: readerReach() };
+  if (e.target.closest('input, button')) return;
+  cardDrag ={ x0: e.clientX - (card._dx || 0), reach: readerReach() };
   card.classList.add('dragging'); card.setPointerCapture(e.pointerId); e.preventDefault();
 });
 card.addEventListener('pointermove', e => {
@@ -1878,7 +1932,8 @@ function badgeIn() {
 function openDoors() {
   const target = $('#assignments');
   if (isReduced()) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-  const d = $('#doors'); $('#doorName').textContent = `Welcome, ${S.name.split(' ')[0]}`;
+  const d = $('#doors'), dp = $('#doorPhoto'); $('#doorName').textContent = `Welcome, ${S.name.split(' ')[0]}`;
+  if (S.photo) dp.src = S.photo; dp.hidden = !S.photo;
   d.hidden = false; void d.offsetWidth;
   setTimeout(() => d.classList.add('shut'), 380);
   setTimeout(() => { d.classList.add('msg'); beep('click'); }, 940);
@@ -1888,6 +1943,129 @@ function openDoors() {
   setTimeout(() => { d.hidden = true; }, 2700);
 }
 $('#openSettings2').addEventListener('click', () => $('#settingsBtn').click());
+
+// badge photo: webcam or upload, cropped to the badge's 66:78 window, kept on this device only
+const PHOTO_W = 240, PHOTO_H = 284, PHOTO_MAX = 40000;   // data-URL length cap, about 40 KB
+const NO_CAM = "Your camera isn't available. You can upload a photo instead.";
+const pm = $('#photoModal'), pVideo = $('#photoVideo'), pStill = $('#photoStill'), pFile = $('#photoFile');
+let camStream = null, camToken = 0, countT = null, pendingPhoto = null, photoState = 'choose';
+const calm = () => isReduced() || matchMedia('(prefers-reduced-motion: reduce)').matches;
+function badgeShot(src, sw, sh, mirror) {
+  const c = document.createElement('canvas'); c.width = PHOTO_W; c.height = PHOTO_H;
+  const x = c.getContext('2d'), k = Math.max(PHOTO_W / sw, PHOTO_H / sh), dw = sw * k, dh = sh * k;
+  x.fillStyle = '#fff'; x.fillRect(0, 0, PHOTO_W, PHOTO_H);   // transparent PNGs would turn black as JPEG
+  if (mirror) { x.translate(PHOTO_W, 0); x.scale(-1, 1); }
+  x.drawImage(src, (PHOTO_W - dw) / 2, (PHOTO_H - dh) / 2, dw, dh);
+  let q = 0.8, url = c.toDataURL('image/jpeg', q);
+  while (url.length > PHOTO_MAX && q > 0.45) { q -= 0.1; url = c.toDataURL('image/jpeg', q); }
+  return url;
+}
+function stopCamera() {
+  camToken++;   // also cancels a getUserMedia request that is still waiting on permission
+  if (camStream) camStream.getTracks().forEach(t => t.stop());
+  camStream = null; pVideo.srcObject = null;
+}
+function cancelCountdown() { clearTimeout(countT); countT = null; const o = $('#photoCount'); o.textContent = ''; o.classList.remove('pop'); }
+function photoView(state, note) {
+  photoState = state;
+  const cam = state === 'starting' || state === 'live' || state === 'count';
+  const shown = state === 'choose' ? S.photo : (state === 'still' || state === 'picked') ? pendingPhoto : null;
+  pVideo.hidden = !(state === 'live' || state === 'count');
+  if (shown) pStill.src = shown;
+  pStill.hidden = !shown;
+  const empty = $('#photoEmpty');
+  empty.hidden = !pVideo.hidden || !!shown;
+  empty.textContent = state === 'starting' ? 'Starting camera…' : state === 'upload' ? 'Choose a photo from this device.' : 'No photo yet. Take one or upload one.';
+  const pick = $('#photoPick');
+  pick.hidden = !(state === 'upload' || state === 'picked');
+  pick.textContent = state === 'picked' ? 'Choose another' : 'Choose a photo…';
+  pick.classList.toggle('primary', state === 'upload');
+  $('#photoCapture').hidden = !cam;
+  $('#photoCapture').disabled = state !== 'live' || !pVideo.videoWidth;
+  $('#photoRetake').hidden = state !== 'still';
+  $('#photoUse').hidden = !(state === 'still' || state === 'picked');
+  const on = cam || state === 'still' ? 'camera' : state === 'upload' || state === 'picked' ? 'upload' : '';
+  $$('#photoChoices button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.src === on)));
+  $('#photoRemoveOpt').hidden = !S.photo;
+  const m = $('#photoMsg'); m.textContent = note || ''; m.hidden = !note;
+}
+function cameraFailed(token) {
+  if (token !== camToken) return;
+  stopCamera(); photoView('upload', NO_CAM); $('#photoPick').focus();
+}
+async function startCamera() {
+  stopCamera(); cancelCountdown(); pendingPhoto = null;
+  photoView('starting');
+  const token = camToken;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return cameraFailed(token);
+  try {
+    const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+    if (token !== camToken) { s.getTracks().forEach(t => t.stop()); return; }   // closed or switched while asking
+    camStream = s;
+    s.getVideoTracks().forEach(t => t.addEventListener('ended', () => cameraFailed(token)));
+    pVideo.srcObject = s; pVideo.play().catch(() => {});
+    photoView('live'); $('#photoCapture').focus();
+  } catch (e) { cameraFailed(token); }
+}
+pVideo.addEventListener('loadedmetadata', () => { if (photoState === 'live') $('#photoCapture').disabled = false; });
+function capture() {
+  if (photoState !== 'live' || !pVideo.videoWidth) return;
+  photoView('count'); $('#photoCancel').focus();   // Capture is now disabled, so keep focus inside the modal
+  const out =$('#photoCount'), fx = !calm();
+  let n = 3;
+  const tick = () => {
+    if (n) {
+      out.textContent = n--;
+      if (fx) { out.classList.remove('pop'); void out.offsetWidth; out.classList.add('pop'); }
+      countT = setTimeout(tick, 1000); return;
+    }
+    countT = null; out.textContent = ''; out.classList.remove('pop');
+    pendingPhoto = badgeShot(pVideo, pVideo.videoWidth, pVideo.videoHeight, true);
+    stopCamera(); beep('click');
+    photoView('still'); $('#photoUse').focus();
+    if (fx) { const f = $('#photoFlash'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on'); }
+  };
+  tick();
+}
+function openPhoto() {
+  pendingPhoto = null; photoView('choose');
+  pm.hidden = false; $('#photoChoices button').focus();
+}
+function closePhoto() {
+  stopCamera(); cancelCountdown(); pendingPhoto = null;
+  if (pm.hidden) return;
+  pm.hidden = true; if (curView === 'home') $('#idPhoto').focus();
+}
+$('#idPhoto').addEventListener('click', openPhoto);
+$('#photoChoices').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.src === 'camera') startCamera();
+  else if (b.dataset.src === 'upload') { stopCamera(); cancelCountdown(); pendingPhoto = null; photoView('upload'); pFile.click(); }
+  else { S.photo = null; save(); updateBadge(); closePhoto(); toast('Photo removed. Your initials are back.'); }
+});
+$('#photoPick').addEventListener('click', () => pFile.click());
+pFile.addEventListener('change', () => {
+  const f = pFile.files && pFile.files[0]; if (!f) return;
+  const url = URL.createObjectURL(f), img = new Image();
+  pFile.value = '';   // so picking the same file again still fires change
+  img.onload = () => {
+    URL.revokeObjectURL(url); if (pm.hidden) return;
+    pendingPhoto = badgeShot(img, img.naturalWidth, img.naturalHeight, false);
+    photoView('picked'); $('#photoUse').focus();
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); if (!pm.hidden) photoView('upload', "That file couldn't be opened as a photo. Try a JPG or PNG."); };
+  img.src = url;
+});
+$('#photoCapture').addEventListener('click', capture);
+$('#photoRetake').addEventListener('click', startCamera);
+$('#photoUse').addEventListener('click', () => {
+  if (!pendingPhoto) return;
+  S.photo = pendingPhoto; save(); updateBadge(); closePhoto(); toast('Photo added to your badge.');
+});
+$('#photoCancel').addEventListener('click', closePhoto);
+pm.addEventListener('click', e => { if (e.target === pm) closePhoto(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pm.hidden) { e.preventDefault(); closePhoto(); } });
+addEventListener('pagehide', closePhoto);
 
 // shift clock
 function tickClock() { const c = $('#shiftClock'); if (c) c.textContent = fmtTime(new Date()); }
@@ -2523,7 +2701,7 @@ function renderResults() {
   const date = new Date().toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
   const score = el('div', { class: 'card score-card' },
     el('div', { class: 'big-score mono' }, fmtPts(pts), el('small', {}, ` / ${TOTAL}`)),
-    el('div', {}, el('div', { class: 'eyebrow', style: 'margin-bottom:6px' }, 'Mustang Memorial · Shift report'), el('div', { class: 'who' }, S.name || 'Add your name on your badge (Home page)'), el('div', { class: 'who-sub' }, `Focus Pocus: A Virtual Histology Lab Practical · ${date}`),
+    el('div', {}, el('div', { class: 'eyebrow', style: 'margin-bottom:6px' }, 'Mustang Memorial · Shift report'), el('div', { class: 'who who-row' }, S.photo ? el('img', { class: 'who-photo', src: S.photo, alt: '' }) : null, el('span', {}, S.name || 'Add your name on your badge (Home page)')), el('div', { class: 'who-sub' }, `Focus Pocus: A Virtual Histology Lab Practical · ${date}`),
       el('div', { class: 'who-sub', style: 'margin-top:4px' }, `${answered} of ${TOTAL} answered · ${pct}% correct` + (S.settings.mode === 'typed' ? ' · Challenge mode' : '') + (S.technique.stations ? ` · Focused ${S.technique.stations} slides, ${S.technique.errors} technique slips` : ''))),
     el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap' }, el('button', { class: 'btn', onclick: () => go('practical') }, answered < TOTAL ? 'Keep going' : 'Back to stations')));
   const grid = el('div', { class: 'qgrid' });
@@ -2628,7 +2806,7 @@ $('#resetBtn').addEventListener('click', () => { $('#settingsModal').hidden = tr
 $('#confNo').addEventListener('click', () => $('#confirmModal').hidden = true);
 $('#confYes').addEventListener('click', () => {
   const keep = S.settings;
-  S = { name: '', badged: null, answers: {}, review: {}, cur: 0, settings: keep, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
+  S = { name: '', photo: null, badged: null, answers: {}, review: {}, cur: 0, settings: keep, scope: { missions: {}, parts: null }, started: null, technique: { errors: 0, stations: 0 } };
   save(); nameInput.value = ''; $('#confirmModal').hidden = true; reviewMode = false; toast('Cleared. Fresh start!'); go('home');
 });
 syncSettings();
